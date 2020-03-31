@@ -13,7 +13,7 @@ const logger = createLogger('auth')
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
 // const jwksUrl = 'https://dev-gbcxzine.auth0.com/.well-known/jwks.json'
 
-const auth0Secret = process.env.AUTH_O_SECRET
+const auth0Secret = process.env.AUTH_0_SECRET
 
 export const handler = async (
   event: CustomAuthorizerEvent
