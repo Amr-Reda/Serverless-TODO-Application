@@ -47,5 +47,6 @@ async function createTodo(userId: string, event: any, todoId: string) {
       Item: newItem
     })
     .promise()
+  newItem.userId = undefined
   return newItem
 }
