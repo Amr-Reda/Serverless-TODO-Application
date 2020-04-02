@@ -18,7 +18,7 @@ provider:
   environment:
     AUTH_0_SECRET: EtKsodXh9oKqfLZnQe5TgkvuwQ6hBKNRsUSq8-PMdwNNGch8V938QpBjIjY_vC-d
     TODOS_TABLE: Todo-${self:provider.stage}
-    IMAGES_S3_BUCKET: todo-${self:provider.stage}
+    IMAGES_S3_BUCKET: todo-${self:provider.stage}-udacity
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -29,6 +29,11 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:Query
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:GetObject
+      Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
     # - Effect: Allow
     #   Action:
     #     - dynamodb:Query
