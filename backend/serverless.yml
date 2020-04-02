@@ -18,7 +18,7 @@ provider:
   environment:
     AUTH_0_SECRET: EtKsodXh9oKqfLZnQe5TgkvuwQ6hBKNRsUSq8-PMdwNNGch8V938QpBjIjY_vC-d
     TODOS_TABLE: Todo-${self:provider.stage}
-
+    IMAGES_S3_BUCKET: todo-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -101,3 +101,19 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
+    TodoBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.IMAGES_S3_BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - HEAD
+              AllowedOrigins:
+                - "*"
