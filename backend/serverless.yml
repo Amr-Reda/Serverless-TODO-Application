@@ -122,15 +122,18 @@ resources:
                 - HEAD
               AllowedOrigins:
                 - "*"
+              MaxAge: 3000
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
         PolicyDocument:
-          Id: todo-Policy
+          Id: Policy1585874178818
           Version: "2012-10-17"
           Statement:
-            - Sid: PublicReadForGetBucketObjects
+            - Sid: Stmt1585874171709
               Effect: Allow
               Principal: '*'
               Action: 's3:GetObject'
               Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'
+        Bucket: 
+          Ref: TodoBucket
