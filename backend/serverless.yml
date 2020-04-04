@@ -19,6 +19,8 @@ provider:
     AUTH_0_SECRET: EtKsodXh9oKqfLZnQe5TgkvuwQ6hBKNRsUSq8-PMdwNNGch8V938QpBjIjY_vC-d
     TODOS_TABLE: Todo-${self:provider.stage}
     IMAGES_S3_BUCKET: todo-${self:provider.stage}-udacity
+    INDEX_NAME: userId
+
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -106,6 +108,15 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
+        # LocalSecondaryIndexes:
+        #   - IndexName: ${self:provider.environment.INDEX_NAME}
+        #     KeySchema:
+        #       - AttributeName: todoId
+        #         KeyType: HASH
+        #       - AttributeName: userId
+        #         KeyType: RANGE
+        #     Projection:
+        #       ProjectionType: ALL # What attributes will be copied to an index
     TodoBucket:
       Type: AWS::S3::Bucket
       Properties:
