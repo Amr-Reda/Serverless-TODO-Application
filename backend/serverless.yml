@@ -17,7 +17,7 @@ provider:
 
   environment:
     AUTH_0_SECRET: EtKsodXh9oKqfLZnQe5TgkvuwQ6hBKNRsUSq8-PMdwNNGch8V938QpBjIjY_vC-d
-    TODOS_TABLE: Todos-${self:provider.stage}
+    TODOS_TABLE: Todo-${self:provider.stage}
     IMAGES_S3_BUCKET: todo-${self:provider.stage}-udacity
     INDEX_NAME: userId
 
@@ -53,8 +53,7 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:Query
-          - dynamodb:Scan
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.INDEX_NAME}
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -151,24 +150,18 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: todoId
-            AttributeType: S
           - AttributeName: userId
             AttributeType: S
         KeySchema:
-          - AttributeName: todoId
-            KeyType: HASH
           - AttributeName: userId
-            KeyType: RANGE
+            KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
-        LocalSecondaryIndexes:
+        GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEX_NAME}
             KeySchema:
-              - AttributeName: todoId
-                KeyType: HASH
               - AttributeName: userId
-                KeyType: RANGE
+                KeyType: HASH
             Projection:
               ProjectionType: ALL # What attributes will be copied to an index
     TodoBucket:
