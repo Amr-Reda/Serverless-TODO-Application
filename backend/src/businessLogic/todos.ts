@@ -42,7 +42,7 @@ export async function deleteTodo(event: APIGatewayProxyEvent) {
     console.log('todoId ', todoId);
     console.log('userId ', userId);
 
-    return await todosAccess.deleteTodo(userId, todoId)
+    return await todosAccess.deleteTodo(todoId)
 }
 
 export async function updateTodo(event: APIGatewayProxyEvent) {
@@ -54,5 +54,5 @@ export async function updateTodo(event: APIGatewayProxyEvent) {
     console.log('updatedTodo ', updatedTodo);
     console.log('userId ', userId);
     
-    return await todosAccess.updateTodo(todoId, updatedTodo, userId)
+    return await todosAccess.updateTodo(todoId, updatedTodo)
 }

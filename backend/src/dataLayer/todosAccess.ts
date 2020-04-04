@@ -33,13 +33,10 @@ export class TodosAccess {
         return newTodo
     }
 
-    async deleteTodo(userId: string, todoId: string) {
+    async deleteTodo(todoId: string) {
         await this.docClient
           .delete({
-            Key: {
-              todoId: todoId,
-              userId: userId
-            },
+            Key: { todoId },
             TableName: this.todosTable,
           })
           .promise()
@@ -47,11 +44,11 @@ export class TodosAccess {
         return
     }
 
-    async updateTodo(todoId: string, updatedTodo: any, userId: string) {
+    async updateTodo(todoId: string, updatedTodo: any) {
         await this.docClient
           .update({
             TableName: this.todosTable,
-            Key: { todoId, userId },
+            Key: { todoId },
             UpdateExpression: 'set #name = :n, #dueDate = :due, #done = :d',
             ExpressionAttributeValues: {
                 ':n': updatedTodo.name,
