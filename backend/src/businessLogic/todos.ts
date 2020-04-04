@@ -10,6 +10,8 @@ const todosAccess = new TodosAccess()
 export async function getTodos(event: APIGatewayProxyEvent) {
     let userId = event.requestContext.authorizer['principalId'];
 
+    console.log('userId ', userId);
+    
     return await todosAccess.getTodos(userId)
 }
 
@@ -26,12 +28,19 @@ export async function createTodo(event: APIGatewayProxyEvent) {
         attachmentUrl: `https://${bucketName}.s3.amazonaws.com/${todoId}`
     }
 
+    console.log('todoId ', todoId);
+    console.log('userId ', userId);
+    console.log('newTodo ', newTodo);
+
     return await todosAccess.createTodo(newItem)
 }
 
 export async function deleteTodo(event: APIGatewayProxyEvent) {
     const todoId = event.pathParameters.todoId
     let userId = event.requestContext.authorizer['principalId'];
+
+    console.log('todoId ', todoId);
+    console.log('userId ', userId);
 
     return await todosAccess.deleteTodo(userId, todoId)
 }
@@ -41,5 +50,9 @@ export async function updateTodo(event: APIGatewayProxyEvent) {
     const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
     let userId = event.requestContext.authorizer['principalId'];
 
+    console.log('todoId ', todoId);
+    console.log('updatedTodo ', updatedTodo);
+    console.log('userId ', userId);
+    
     return await todosAccess.updateTodo(todoId, updatedTodo, userId)
 }
