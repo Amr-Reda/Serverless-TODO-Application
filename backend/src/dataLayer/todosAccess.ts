@@ -9,10 +9,10 @@ export class TodosAccess {
     }
 
     async getTodos(userId: string) {
-        console.log(this.indexName);
         
-        const result = await this.docClient.scan({
+        const result = await this.docClient.query({
           TableName: this.todosTable,
+          IndexName: this.indexName,
           FilterExpression: 'userId = :userId',
           ExpressionAttributeValues: {
               ':userId': userId,
