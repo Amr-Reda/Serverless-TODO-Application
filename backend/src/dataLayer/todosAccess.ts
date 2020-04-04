@@ -13,7 +13,7 @@ export class TodosAccess {
         const result = await this.docClient.query({
           TableName: this.todosTable,
           IndexName: this.indexName,
-          FilterExpression: 'userId = :userId',
+          KeyConditionExpression: 'userId = :userId',
           ExpressionAttributeValues: {
               ':userId': userId,
           },
